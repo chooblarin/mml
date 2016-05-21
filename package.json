@@ -1,0 +1,12 @@
+{
+  "name": "mml",
+  "email": "choo.bla.rin@gmail.com",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "node scripts/index.js"
+  },
+  "engines": {
+    "node": ">=6.2.0"
+  },
+  "dependencies": {}
+}
