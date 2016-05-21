@@ -1,3 +1,7 @@
+const flatten = (list) => {
+  return list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), [])
+}
+exports.flatten = flatten
 
 /* Random value by Box-Muller's method */
 exports.rnorm = (mean, sd) => {
