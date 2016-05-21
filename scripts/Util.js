@@ -1,12 +1,12 @@
 
 /* Random value by Box-Muller's method */
-let rnorm = (mean, sd) => {
+exports.rnorm = (mean, sd) => {
   let x = Math.random();
   let y = Math.random();
   return mean + sd * Math.sqrt(-2 * Math.log(x)) * Math.cos(2 * Math.PI * y);
 };
 
-let randomChoice = (array, count) => {
+exports.randomChoice = (array, count) => {
 
   if (array.length <= count) {
     return array;
@@ -27,11 +27,11 @@ let randomChoice = (array, count) => {
   return newArray;
 };
 
-let getMean = (array) => {
+exports.getMean = (array) => {
   return array.reduce((acc, val) => acc + val) / array.length;
 };
 
-let getVarriance = (array, mean) => {
+exports.getVarriance = (array, mean) => {
   if (!mean) {
     mean = getMean(array)
   }
@@ -41,7 +41,7 @@ let getVarriance = (array, mean) => {
   return sumOfSquares / array.length;
 };
 
-let getSD = (array, mean) => {
+exports.getSD = (array, mean) => {
   if (!mean) {
     mean = getMean(array)
   }
@@ -49,7 +49,7 @@ let getSD = (array, mean) => {
   return Math.sqrt(varriance);
 };
 
-let normalize = (array, mean, sd) => {
+exports.normalize = (array, mean, sd) => {
   var newArray = [];
   if (!mean) {
     mean = getMean(array)
