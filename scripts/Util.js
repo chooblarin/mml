@@ -31,11 +31,12 @@ exports.randomChoice = (array, count) => {
   return newArray;
 };
 
-exports.getMean = (array) => {
+const getMean = (array) => {
   return array.reduce((acc, val) => acc + val) / array.length;
 };
+exports.getMean = getMean
 
-exports.getVarriance = (array, mean) => {
+const getVarriance = (array, mean) => {
   if (!mean) {
     mean = getMean(array)
   }
@@ -44,14 +45,16 @@ exports.getVarriance = (array, mean) => {
         .reduce((acc, val) => acc + val);
   return sumOfSquares / array.length;
 };
+exports.getVarriance = getVarriance
 
-exports.getSD = (array, mean) => {
+const getSD = (array, mean) => {
   if (!mean) {
     mean = getMean(array)
   }
   var varriance = getVarriance(array, mean);
   return Math.sqrt(varriance);
 };
+exports.getSD = getSD
 
 exports.normalize = (array, mean, sd) => {
   var newArray = [];
