@@ -4,10 +4,23 @@ const flatten = (list) => {
 exports.flatten = flatten
 
 /* Random value by Box-Muller's method */
-exports.rnorm = (mean, sd) => {
+const rnorm = (mean, sd) => {
   let x = Math.random();
   let y = Math.random();
   return mean + sd * Math.sqrt(-2 * Math.log(x)) * Math.cos(2 * Math.PI * y);
+};
+exports.rnorm = rnorm;
+
+const randomVector = (n) => {
+  var v = [];
+  for (var i = 0; i < n; i++) {
+    v.push(rnorm(0, 1));
+  }
+  return v;
+};
+
+exports.randomMatrix(...ns) => {
+  return ns.map(n => randomVector(n));
 };
 
 exports.randomChoice = (array, count) => {
