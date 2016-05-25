@@ -11,6 +11,10 @@ const rnorm = (mean, sd) => {
 };
 exports.rnorm = rnorm;
 
+/**
+  * n dimentional vector initialized randomly
+  * using a Gaussian distribution with mean 0 and varriance 1.
+  */
 const randomVector = (n) => {
   var v = [];
   for (var i = 0; i < n; i++) {
@@ -18,9 +22,14 @@ const randomVector = (n) => {
   }
   return v;
 };
+exports.randomVector = randomVector;
 
-exports.randomMatrix(...ns) => {
-  return ns.map(n => randomVector(n));
+exports.randomMatrix = (n, m) => {
+  var matrix = [];
+  for (var i = 0; i < n; i++) {
+    matrix.push(randomVector(m));
+  }
+  return matrix;
 };
 
 exports.randomChoice = (array, count) => {
