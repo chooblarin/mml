@@ -48,7 +48,7 @@ exports.randomChoice = (array, count) => {
     }
     newArray.push(array[randomIndex]);
     usedIndexes.push(randomIndex);
-  } while(count != newArray.length)
+  } while(count != newArray.length);
 
   return newArray;
 };
@@ -56,7 +56,7 @@ exports.randomChoice = (array, count) => {
 const getMean = (array) => {
   return array.reduce((acc, val) => acc + val) / array.length;
 };
-exports.getMean = getMean
+exports.getMean = getMean;
 
 const getVarriance = (array, mean) => {
   if (!mean) {
@@ -67,24 +67,39 @@ const getVarriance = (array, mean) => {
         .reduce((acc, val) => acc + val);
   return sumOfSquares / array.length;
 };
-exports.getVarriance = getVarriance
+exports.getVarriance = getVarriance;
 
 const getSD = (array, mean) => {
   if (!mean) {
-    mean = getMean(array)
+    mean = getMean(array);
   }
   var varriance = getVarriance(array, mean);
   return Math.sqrt(varriance);
 };
-exports.getSD = getSD
+exports.getSD = getSD;
 
 exports.normalize = (array, mean, sd) => {
   var newArray = [];
   if (!mean) {
-    mean = getMean(array)
+    mean = getMean(array);
   }
   if (!sd) {
-    sd = getSD(array)
+    sd = getSD(array);
   }
   return array.map((val) => (val - mean) / sd);
 };
+
+/**
+  * The sigmoid function.
+  */
+const sigmoid = (z) => {
+  return 1.0 / (1.0 + Math.exp(-z));
+};
+exports.sigmoid = sigmoid;
+
+/**
+  * Derivative of the sigmoid function.
+  */
+const derivativeSigmoid = (z) => {
+  return sigmoid(z) * (1 - sigmoid(z));
+}
