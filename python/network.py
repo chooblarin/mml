@@ -1,3 +1,4 @@
+import random
 import numpy as np
 
 # See https://github.com/mnielsen/neural-networks-and-deep-learning/blob/master/src/network.py
@@ -22,11 +23,19 @@ class Network(object):
     return a
 
   def SDG(self, training_data, epochs, mini_batch_size, eta, test_data=None):
+    """
+    ``training_data`` : a list of tuple ``(training_inputs, desired_outputs)``.
+    ``epochs`` : the number of epochs to train for.
+    ``mini_batch_size`` : the size of the mini-batches to use when sampling.
+    ``eta`` : the learning rate.
+    ``test_data`` : if provided, then the program will evaluate the network
+    after each epoch of training, and print out partial progress.
+    """
     if test_data: n_test = len(test_data)
     n = len(training_data)
     for j in range(epochs):
       random.shuffle(training_data)
-      mini_batches = [training_data[k:k+mini_batch_size] for k in xrange(0, n, mini_batch_size)]
+      mini_batches = [training_data[k:k+mini_batch_size] for k in range(0, n, mini_batch_size)]
       for mini_batch in mini_batches:
         self.update_mini_batch(mini_batch, eta)
 
@@ -34,11 +43,12 @@ class Network(object):
         print("Epoch {0}: {1} / {2}".format(j, self.evaluate(test_data), n_test))
       else:
         print("Epoch {0} complete".format(j))
-    pass
+
 
   def update_mini_batch(self, mini_batch, eta):
     nabla_b = [np.zeros(b.shape) for b in self.biases]
     nabla_w = [np.zeros(w.shape) for w in self.weights]
+
     for x, y in mini_batch:
       delta_nabla_b, delta_nabla_w = self.backprop(x, y)
       nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
@@ -58,7 +68,7 @@ class Network(object):
       zs = [] # all the z vectors
 
       for b, w in zip(self.biases, self.weights):
-        z = np.dot(w, activation) + b
+        z = np.dot(w, activation)+b
         zs.append(z)
         activation = sigmoid(z)
         activations.append(activation)
@@ -68,10 +78,10 @@ class Network(object):
       nabla_b[-1] = delta
       nabla_w[-1] = np.dot(delta, activations[-2].transpose())
 
-      for l in xrange(2, self.num_layers):
+      for l in range(2, self.num_layers):
         z = zs[-l]
         sp = sigmoid_prime(z)
-        delta = np.dot(self.weights[-l+1].transpose(), delta)
+        delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
         nabla_b[-l] = delta
         nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
 
