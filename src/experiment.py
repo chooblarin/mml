@@ -14,4 +14,4 @@ test_data_y = mnist.target[10000:11000]
 test_data = [(x, y) for x, y in zip(test_data_x, test_data_y)]
 
 net = network.Network([784, 30, 10])
-net.SGD(training_data, 30, 10, 3.0)
+net.SGD(training_data, 30, 10, 3.0, test_data=test_data)

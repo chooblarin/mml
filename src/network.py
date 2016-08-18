@@ -3,6 +3,16 @@
 import numpy as np
 import random
 
+def sigmoid(z):
+  return 1.0/(1.0+np.exp(-z))
+
+sigmoid_vec = np.vectorize(sigmoid)
+
+def sigmoid_prime(z):
+  return sigmoid(z)*(1-sigmoid(z))
+
+sigmoid_prime_vec = np.vectorize(sigmoid_prime)
+
 class Network():
 
   def __init__(self, sizes):
@@ -13,7 +23,7 @@ class Network():
 
   def feedforward(self, a):
     for b, w in zip(self.biases, self.weights):
-      a = sigmoid(np.dot(w, a) + b)
+      a = sigmoid_vec(np.dot(w, a) + b)
     return a
 
   def SGD(self, training_data, epochs, mini_batch_size, eta, test_data=None):
@@ -54,17 +64,18 @@ class Network():
     for b, w in zip(self.biases, self.weights):
       z = np.dot(w, activation)+b
       zs.append(z)
-      activation = sigmoid(z)
+      activation = sigmoid_vec(z)
+      print(activation)
       activations.append(activation)
 
     # backward
-    delta = self.cost_derivative(activations[-1], y) * sigmoid_prime(zs[-1])
+    delta = self.cost_derivative(activations[-1], y) * sigmoid_prime_vec(zs[-1])
     nabla_b[-1] = delta
     nabla_w[-1] = np.dot(delta, activations[-2].transpose())
     for l in range(2, self.num_layers):
       z = zs[-l]
-      sp = sigmoid_prime(z)
-      delta = np.dot(self.weights[-l+1].transpose, delta) * sp
+      sp = sigmoid_prime_vec(z)
+      delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
       nabla_b[-l] = delta
       nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
     return (nabla_b, nabla_w)
@@ -76,8 +87,3 @@ class Network():
   def cost_derivative(self, output_activations, y):
     return (output_activations - y)
 
-def sigmoid(z):
-  return 1.0 / (1.0 + np.exp(-z))
-
-def sigmoid_prime(z):
-  return sigmoid(z) * (1 - sigmoid(z))
